@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<style>
+  
+	body, textarea {
+  		background-color: lightgray;
+	}
+	.column {
+  		width: 50%;
+  		float: left;
+	}
+	textarea {
+  		width: 96%;
+		height:1024px;
+  		font-size: 20px;
+  		font-family: arial;
+	}
+	#preview {
+  		font-family: helvetica;
+  		font-size: 20px;
+	}	
+</style>
+
+<head>
+	<script defer src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.12/marked.js"></script>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+	<div id="root"></div>
+	<script type='text/babel'>
+	
+	class TextInput extends React.Component {
+  		constructor(props) {
+    			super(props);
+    			this.initialText="\n# Heading\n\n## Sub-heading\n\n### Another deeper heading\n\nMarkdown syntax guide at [Syntax Guide](https://www.markdownguide.org/basic-syntax/#links).\n\n*this is italicized*\n\nText attributes *italic*, **bold**, `monospace`,~~strikethrough~~.\n\nShopping list:\n\n* apples\n\n* oranges\n\n* pears\n\nconsole.log('Some inline JavaScript');\n\n>A blockquote.\n\n![An image](images/sea.png)\n\nA block of code\n```javascript\nwhile (x>3){\n console.log('x is bigger than 3');\n}```";
+    			this.state = {value: this.initialText};
+    			this.handleChange = this.handleChange.bind(this);
+  		}
+  
+
+  		handleChange(event) {
+    			this.setState({value: event.target.value});
+  		}
+  		render() {
+    			return (
+      				<div>
+        				<div className="column">
+          					<div>
+            					<textarea id="editor" rows="20" value={this.state.value} onChange={this.handleChange} />
+          					</div>
+        				</div>
+        				<div className="column">
+          					<div id="preview" dangerouslySetInnerHTML={{ __html: marked(this.state.value, {sanitize: true}) }} >
+						</div>
+      					</div>
+     				</div>
+    			);
+  		}
+	}
+
+	ReactDOM.render(
+  		<TextInput />,
+  		document.getElementById('root')
+	);
+	</script>
+</body>
+
+</html>
